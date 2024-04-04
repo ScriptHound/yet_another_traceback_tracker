@@ -17,13 +17,15 @@ public class LogsInfoController
     }
 
     [HttpGet]
-    public IEnumerable<LogEntity> Get()
+    [PasswordAuthorize]
+    public IEnumerable<LogEntity> Get([FromHeader(Name = "Authorization")] string bearer)
     {
         return _logService.GetLogRecords();
     }
     
     [HttpPost]
-    public ActionResult<string> Post([FromBody] string logContext)
+    [PasswordAuthorize]
+    public ActionResult<string> Post([FromBody] string logContext, [FromHeader(Name = "Authorization")] string bearer)
     {
         _logService.CreateLogRecord(logContext);
 
